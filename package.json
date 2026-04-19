@@ -1,0 +1,19 @@
+{
+  "name": "expense-manager",
+  "version": "1.0.0",
+  "description": "A desktop application to manage monthly expenses from various sources.",
+  "main": "app/main.js",
+  "scripts": {
+    "install-all": "npm install && cd frontend && npm install && cd ../backend && pip install -r requirements.txt",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "python -m uvicorn backend.main:app --reload",
+    "dev:electron": "electron .",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "pip install -r backend/requirements.txt",
+    "start": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:electron\""
+  },
+  "devDependencies": {
+    "electron": "^25.0.0",
+    "concurrently": "^8.0.1"
+  }
+}
