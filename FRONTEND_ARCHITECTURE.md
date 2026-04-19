@@ -9,14 +9,15 @@ frontend/
 │   ├── App.jsx                     # Main app with routing & layout
 │   ├── index.css                   # Global styles with Tailwind
 │   ├── components/
-│   │   └── UI.jsx                  # Reusable UI components
+│   │   ├── Sidebar.jsx             # Navigation sidebar component
+│   │   └── UI.jsx                  # Reusable UI components (Alert, Button, Card, Modal, Loading, EmptyState)
 │   ├── pages/
-│   │   ├── Dashboard.jsx           # Dashboard with charts
-│   │   ├── Expenses.jsx            # Expense CRUD
-│   │   ├── Categories.jsx          # Category management
-│   │   └── Settings.jsx            # Email configuration
+│   │   ├── Dashboard.jsx           # Dashboard with charts and analytics
+│   │   ├── Expenses.jsx            # Expense CRUD with filtering
+│   │   ├── Categories.jsx          # Category management with colors
+│   │   └── Settings.jsx            # Email configuration and help
 │   └── services/
-│       └── api.js                  # API service layer
+│       └── api.js                  # API service layer (Axios)
 ├── index.html                      # HTML entry point
 ├── vite.config.js                  # Vite build config
 ├── tailwind.config.js              # Tailwind configuration
@@ -30,63 +31,80 @@ frontend/
 ## Component Architecture
 
 ### App.jsx
-- Main entry point with React Router
-- Sidebar navigation
-- Header with user menu
-- Main content area
-- Mobile responsive
+- Main entry point with React Router (BrowserRouter)
+- Dual sidebar navigation (desktop sidebar + mobile slide-out menu)
+- Header with hamburger menu toggle
+- Main content area with routing
+- Fully mobile responsive with breakpoints
 
 ### Pages
 
 #### Dashboard.jsx
-- Displays summary cards (total, count, average)
+- Summary cards (total expenses, count, average)
+- Currency selector (USD/VND) with localStorage persistence
 - Email sync button with loading state
-- Line chart for monthly trend
-- Pie chart for category breakdown
-- Category breakdown table with percentages
-- Alerts for sync status
+- Daily trend chart (ComposedChart with Bar and Line)
+- Category pie chart with color coding
+- Category breakdown section with progress bars
+- Alert notifications for sync status
+- Uses Sidebar component for navigation
 
 #### Expenses.jsx
-- Table view of all expenses
-- Add/Edit/Delete functionality
-- Filter by category and source
-- Modal form for adding/editing
-- Responsive design with actions column
-- Empty state when no expenses
+- Table view of all expenses with sorting
+- Add/Edit/Delete functionality with modals
+- Filter by category (text input) and source (dropdown)
+- Form validation for required fields
+- Date picker for expense date
+- Source selection (Manual/Email)
+- Responsive table design with action buttons
+- Empty state with icon when no expenses
 
 #### Categories.jsx
-- Grid view of categories
-- Color indicator for each category
-- Add/Edit/Delete functionality
-- Modal form with color picker
-- Responsive grid layout
+- Grid view of categories with color indicators
+- Add/Edit/Delete functionality with modals
+- Color picker input for category colors
+- Description field support
+- Duplicate category name validation
+- Responsive grid layout (1-3 columns based on screen size)
+- Empty state when no categories
 
 #### Settings.jsx
-- Email configuration form
-- Test connection button
-- Email tips and documentation
-- General settings information
-- Help section with FAQs
-- Alert status indicators
+- Email configuration form (IMAP server, email, password)
+- Test connection button with loading state
+- Connection status indicator (configured/not configured)
+- Gmail App Password help section with link
+- General settings information (version, database location, API endpoint)
+- FAQ help section
+- Alert notifications for success/error messages
 
-### Components (UI.jsx)
-- **Alert**: Info, success, error, warning messages
-- **Button**: Variants (primary, secondary, danger, outline), sizes, loading state
-- **Card**: Reusable container component
-- **Modal**: Reusable dialog with confirm/cancel
-- **Loading**: Spinner component
+### Components
+
+#### UI.jsx
+- **Alert**: Info, success, error, warning messages with icons and close button
+- **Button**: Variants (primary, secondary, danger, outline), sizes (sm, md, lg), loading state
+- **Card**: Reusable container component with shadow
+- **Modal**: Reusable dialog with confirm/cancel actions and loading state
+- **Loading**: Spinner component for loading states
 - **EmptyState**: Icon, title, description for empty lists
+
+#### Sidebar.jsx
+- Navigation sidebar with logo and menu items
+- Links to Dashboard, Expenses, Categories, Settings
+- Logout button (placeholder)
+- Indigo color theme matching app branding
 
 ## API Integration
 
 ### Services/api.js
 RESTful API client using Axios with organized endpoints:
 
-- **expensesAPI**: CRUD operations + filtering
-- **categoriesAPI**: Category management
-- **reportsAPI**: Analytics and summaries
-- **syncAPI**: Email sync
-- **settingsAPI**: Email configuration + testing
+- **expensesAPI**: CRUD operations + filtering (create, getAll, getById, update, delete)
+- **categoriesAPI**: Category management (getAll, create, update, delete)
+- **reportsAPI**: Analytics and summaries (getSummary, getDaily, getByCategory)
+- **syncAPI**: Email sync (fetchEmails)
+- **settingsAPI**: Email configuration (getAll, save, test connection)
+
+Base URL configured via `VITE_API_URL` environment variable (defaults to `http://localhost:8000/api`)
 
 All endpoints configured with:
 - Base URL from environment variables
@@ -119,17 +137,18 @@ All endpoints configured with:
 ## Features
 
 ### Dashboard
-- Real-time spending overview
-- Automatic chart updates
-- Email sync integration
-- Category analytics
+- Real-time spending overview with summary cards
+- Currency formatting (USD/VND)
+- Automatic chart updates on data changes
+- Email sync integration with loading states
+- Category analytics with visual breakdown
 
 ### Expenses Management
-- CRUD operations
-- Advanced filtering
-- Date picker
-- Category assignment
-- Source tracking
+- Full CRUD operations with validation
+- Filter by category (text) and source (dropdown)
+- Date picker for expense dates
+- Category assignment with text input
+- Source tracking (Manual/Email)
 
 ### Categories
 - Custom colors
@@ -138,10 +157,11 @@ All endpoints configured with:
 - Bulk management
 
 ### Settings
-- Email account configuration
-- Connection testing
-- Help documentation
-- System information
+- Email account configuration (IMAP server, email, password)
+- Connection testing with timeout handling
+- Gmail App Password help with external link
+- System information (version, database path, API URL)
+- FAQ help section
 
 ## State Management
 
@@ -199,14 +219,15 @@ All endpoints configured with:
 
 ## Dependencies
 
-- **react**: UI framework
-- **react-dom**: DOM rendering
-- **react-router-dom**: Client-side routing
-- **axios**: HTTP client
-- **recharts**: Chart library
-- **lucide-react**: Icon library
-- **tailwindcss**: Utility CSS
-- **vite**: Build tool
+- **react**: UI framework (^18.2.0)
+- **react-dom**: DOM rendering (^18.2.0)
+- **react-router-dom**: Client-side routing (^6.20.0)
+- **axios**: HTTP client (^1.15.0)
+- **recharts**: Chart library (^3.8.1)
+- **lucide-react**: Icon library (^0.263.1)
+- **tailwindcss**: Utility CSS (^4.2.2)
+- **vite**: Build tool (^5.0.0)
+- **@tailwindcss/postcss**: Tailwind PostCSS plugin (^4.2.2)
 
 ## Build & Deploy
 

@@ -128,26 +128,31 @@ ExpenseManager/
 │   └── main.js                 # Electron entry point
 ├── backend/
 │   ├── main.py                 # FastAPI app
-│   ├── database.py             # Database models
-│   ├── requirements.txt         # Python dependencies
+│   ├── database.py             # Database models and connection
+│   ├── requirements.txt        # Python dependencies
 │   ├── api/
+│   │   ├── __init__.py
 │   │   ├── expenses.py         # Expense endpoints
 │   │   ├── categories.py       # Category endpoints
 │   │   ├── reports.py          # Reports endpoints
 │   │   ├── settings.py         # Settings endpoints
 │   │   └── expenses_sync.py    # Email sync endpoint
 │   ├── services/
+│   │   ├── __init__.py
 │   │   └── email_service.py    # Email/IMAP service
 │   ├── models/
+│   │   ├── __init__.py
 │   │   └── expense.py          # Data models
 │   └── core/
+│       └── __init__.py
 ├── frontend/
 │   ├── src/
 │   │   ├── App.jsx             # Main app component
 │   │   ├── main.jsx            # React entry point
 │   │   ├── index.css           # Global styles
 │   │   ├── components/
-│   │   │   └── UI.jsx          # Reusable UI components
+│   │   │   ├── Sidebar.jsx     # Navigation sidebar component
+│   │   │   └── UI.jsx          # Reusable UI components (Alert, Button, Card, Modal, etc.)
 │   │   ├── pages/
 │   │   │   ├── Dashboard.jsx   # Dashboard page
 │   │   │   ├── Expenses.jsx    # Expenses page
@@ -169,12 +174,21 @@ See [API_DOCUMENTATION.md](API_DOCUMENTATION.md) for complete API reference.
 
 ### Key Endpoints
 
-- `GET /api/expenses` - List expenses
+- `GET /api/expenses` - List expenses with filtering
 - `POST /api/expenses` - Create expense
+- `PUT /api/expenses/{id}` - Update expense
+- `DELETE /api/expenses/{id}` - Delete expense
+- `GET /api/expenses/reports/summary` - Get expense summary
+- `GET /api/expenses/reports/daily` - Get daily trend
+- `GET /api/expenses/reports/category` - Get category breakdown
 - `GET /api/categories` - List categories
+- `POST /api/categories` - Create category
 - `GET /api/reports/monthly` - Monthly summary
+- `GET /api/reports/by-category` - Category spending breakdown
 - `POST /api/sync/fetch-emails` - Sync bank statements
-- `GET /api/settings` - Email settings
+- `GET /api/settings` - Get email settings
+- `POST /api/settings` - Save email settings
+- `POST /api/settings/test` - Test email connection
 
 ## Email Configuration
 
@@ -320,13 +334,14 @@ Contributions are welcome! Please follow these steps:
 
 ## Changelog
 
-### Version 1.0.0 (April 2024)
+### Version 1.0.0 (April 2025)
 - Initial release
 - Core expense management features
-- Email integration
-- Dashboard with analytics
-- Category management
+- Email integration with IMAP support
+- Dashboard with analytics and charts
+- Category management with custom colors
 - Settings and configuration
+- Multi-currency support (USD/VND)
 
 ---
 

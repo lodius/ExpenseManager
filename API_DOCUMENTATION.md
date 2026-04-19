@@ -42,15 +42,42 @@ Update an expense
 #### DELETE `/api/expenses/{expense_id}`
 Delete an expense
 
-#### GET `/api/expenses/summary`
+#### GET `/api/expenses/reports/summary`
 Get total expense summary
 - **Response:**
   ```json
   {
-    "total_expenses": 1500.00,
-    "expense_count": 25,
-    "average_expense": 60.00
+    "total": 1500.00,
+    "count": 25,
+    "average": 60.00
   }
+  ```
+
+#### GET `/api/expenses/reports/daily`
+Get daily expense trend for the last N days
+- **Query Parameters:**
+  - `days` (int): Number of days to include (default: 30, max: 365)
+- **Response:**
+  ```json
+  [
+    {
+      "date": "2025-04-18",
+      "total": 50.00
+    }
+  ]
+  ```
+
+#### GET `/api/expenses/reports/category`
+Get expense breakdown by category
+- **Response:**
+  ```json
+  [
+    {
+      "category": "Food",
+      "total": 300.00,
+      "percentage": 40.0
+    }
+  ]
   ```
 
 ---
@@ -85,7 +112,7 @@ Delete a category
 ### Reports & Analytics (`/api/reports`)
 
 #### GET `/api/reports/summary`
-Get total spending summary
+Get total spending summary across all expenses
 - **Response:**
   ```json
   {
@@ -102,7 +129,7 @@ Get monthly expense breakdown
   [
     {
       "month": "April",
-      "year": 2024,
+      "year": 2025,
       "total": 500.00,
       "count": 10,
       "by_category": [
@@ -118,14 +145,14 @@ Get monthly expense breakdown
   ```
 
 #### GET `/api/reports/daily`
-Get daily expense summary
+Get daily expense summary for the last N days
 - **Query Parameters:**
   - `days` (int): Number of days to include (default: 30, max: 365)
 - **Response:**
   ```json
   [
     {
-      "date": "2024-04-18",
+      "date": "2025-04-18",
       "total": 50.00,
       "count": 2
     }

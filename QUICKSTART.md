@@ -34,6 +34,8 @@ API_HOST=127.0.0.1
 API_PORT=8000
 ```
 
+**Note:** The `.env` file should be in the root directory (same level as `package.json`), not in the backend folder.
+
 **For Gmail users:**
 - Enable 2-Factor Authentication first
 - Go to: https://myaccount.google.com/apppasswords
@@ -64,10 +66,15 @@ npm start
 
 This starts:
 - ✅ Backend API (http://localhost:8000)
-- ✅ Frontend (http://localhost:5173)
+- ✅ Frontend Dev Server (http://localhost:5173)
 - ✅ Electron Desktop App
 
 Wait 10-15 seconds for everything to initialize.
+
+**Access the application:**
+- **Electron App**: Desktop window will open automatically
+- **Web Browser**: http://localhost:5173
+- **API Docs**: http://localhost:8000/docs
 
 ### Option B: Run Services Separately
 ```bash
@@ -86,37 +93,42 @@ npm run dev:electron
 ## 4. First Time Use
 
 ### Create Your First Expense Category
-1. Click "Categories" in sidebar
-2. Click "Add Category"
+1. Click "Categories" in the sidebar or navigation
+2. Click "Add Category" button
 3. Enter name: "Food"
-4. Choose color (e.g., #FF5733)
-5. Click "Create"
+4. Choose a color using the color picker (e.g., #3b82f6 for blue)
+5. Add an optional description
+6. Click "Create"
 
 ### Add Your First Expense
-1. Click "Expenses" in sidebar
-2. Click "Add Expense"
-3. Fill in:
-   - Amount: 50.00
-   - Description: "Grocery shopping"
-   - Category: "Food"
-   - Source: "Manual"
-   - Date: Today
+1. Click "Expenses" in the sidebar or navigation
+2. Click "Add Expense" button
+3. Fill in the form:
+   - **Amount**: 50.00
+   - **Description**: "Grocery shopping"
+   - **Category**: "Food" (or any category you created)
+   - **Source**: "Manual" (or "Email" if synced)
+   - **Date**: Today's date
 4. Click "Create"
 
 ### Setup Email Sync (Optional)
-1. Click "Settings" in sidebar
+1. Click "Settings" in the sidebar or navigation
 2. Fill in email configuration:
-   - IMAP Server: `imap.gmail.com`
-   - Email: Your email address
-   - Password: App password (Gmail) or regular password (Outlook)
-3. Click "Test Connection"
+   - **IMAP Server**: `imap.gmail.com` (for Gmail) or `imap.outlook.com` (for Outlook)
+   - **Email Address**: Your full email address
+   - **Password**: App password (for Gmail) or regular password (for Outlook)
+3. Click "Test Connection" to verify
 4. If successful, click "Save Settings"
+
+**Note for Gmail users:** You must use an App Password, not your regular Gmail password. See the help text in Settings for instructions.
 
 ### Sync Bank Statements
 1. Go to "Dashboard"
-2. Click "Sync Now"
-3. Wait for sync to complete
-4. View imported expenses in "Expenses" page
+2. Select your preferred currency (USD or VND) from the dropdown
+3. Click "Sync Now" button
+4. Wait for sync to complete (may take 30 seconds)
+5. View imported expenses in the "Expenses" page
+6. Check the daily trend chart and category breakdown for insights
 
 ## 5. Key Features
 
@@ -189,8 +201,8 @@ taskkill /PID <PID> /F
 | Item | Location |
 |------|----------|
 | Database | `data/expense_manager.db` |
-| Backend Config | `.env` (root) |
-| Frontend Config | `frontend/.env` |
+| Backend Config | `.env` (root directory) |
+| Frontend Config | `frontend/.env` (optional) |
 | Backend Code | `backend/` |
 | Frontend Code | `frontend/src/` |
 | Electron App | `app/` |
@@ -242,10 +254,12 @@ npm test
 ## Tips & Tricks
 
 💡 **Dashboard Sync**: Click "Sync Now" to import emails as expenses
+💡 **Currency**: Switch between USD and VND on the Dashboard
 💡 **Quick Filters**: Use category/source filters on Expenses page
 💡 **Categories**: Colors help visually identify expense types
 💡 **Reports**: Access via API at `/api/reports/*` for detailed analytics
 💡 **Mobile**: App is responsive and works on tablet screens
+💡 **Test Connection**: Always test email settings before saving
 
 ---
 
